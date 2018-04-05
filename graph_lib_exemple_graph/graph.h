@@ -263,6 +263,11 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
+        grman::WidgetButton m_sauvegarde;
+        grman::WidgetText m_sauvegarde_text;
+        grman::WidgetButton m_afficher;
+        grman::WidgetText m_afficher_text;
+
 
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)
@@ -287,7 +292,8 @@ class Graph
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
-
+        int ordre;
+        int nbrEdge;
 
     public:
 
@@ -298,16 +304,19 @@ class Graph
 
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
-
+        void test_remove_edge(int eidx);
         /// Méthode spéciale qui construit un graphe arbitraire (démo)
         /// Voir implémentation dans le .cpp
         /// Cette méthode est à enlever et remplacer par un système
         /// de chargement de fichiers par exemple.
-        void make_example();
+        void Charger(std::string NomDuGraph);
+        void Sauvegarde(std::string NomDuGraph);
+        void Boutonsgraph(std::string NomDuGraph);
 
+        void detruire_graph();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
-        void update();
+        void update(std::string NomDuGraph);
 };
 
 

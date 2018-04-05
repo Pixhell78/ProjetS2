@@ -5,6 +5,7 @@
 
 int main()
 {
+    std::string NomDuGraph ="graph1";
     /// A appeler en 1er avant d'instancier des objets graphiques etc...
     grman::init();
 
@@ -13,7 +14,7 @@ int main()
 
     /// Un exemple de graphe
     Graph g;
-    g.make_example();
+    g.Charger(NomDuGraph);
 
 
     /// Vous gardez la main sur la "boucle de jeu"
@@ -21,12 +22,12 @@ int main()
     while ( !key[KEY_ESC] )
     {
         /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
-        g.update();
+        g.update(NomDuGraph);
 
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
     }
-
+    g.detruire_graph();
     grman::fermer_allegro();
 
     return 0;

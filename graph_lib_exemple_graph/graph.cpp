@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <fstream>
 
 /***************************************************
                     VERTEX
@@ -137,17 +138,35 @@ void Edge::post_update()
 GraphInterface::GraphInterface(int x, int y, int w, int h)
 {
     m_top_box.set_dim(1000,740);
-    m_top_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
+    m_top_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Center);
 
     m_top_box.add_child(m_tool_box);
-    m_tool_box.set_dim(80,720);
-    m_tool_box.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
+    m_tool_box.set_dim(118,736);
+    m_tool_box.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Center);
     m_tool_box.set_bg_color(BLANCBLEU);
 
     m_top_box.add_child(m_main_box);
-    m_main_box.set_dim(908,720);
-    m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
+    m_main_box.set_dim(880,736);
+    m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Center);
     m_main_box.set_bg_color(BLANCJAUNE);
+
+    m_tool_box.add_child(m_sauvegarde);
+    m_sauvegarde.set_dim(116,30);
+    m_sauvegarde.set_pos(-2,0);
+
+    m_sauvegarde.set_bg_color(BLEUCLAIR);
+    m_sauvegarde.add_child(m_sauvegarde_text);
+    m_sauvegarde_text.set_message("Sauvegarder");
+    m_sauvegarde_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
+    m_tool_box.add_child(m_afficher);
+    m_afficher.set_dim(116,30);
+    m_afficher.set_pos(-2,40);
+
+    m_afficher.set_bg_color(BLEUCLAIR);
+    m_afficher.add_child(m_afficher_text);
+    m_afficher_text.set_message("Afficher ");
+    m_afficher_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
 }
 
 
@@ -156,7 +175,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 /// de chargement de fichiers par exemple.
 /// Bien sûr on ne veut pas que vos graphes soient construits
 /// "à la main" dans le code comme ça.
-void Graph::make_example()
+/*void Graph::make_example()
 {
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
     // La ligne précédente est en gros équivalente à :
@@ -198,16 +217,88 @@ void Graph::make_example()
 
 
 
+}*/
+
+void Graph::Boutonsgraph(std::string NomDuGraph)
+{
+    if(grman::mouse_click && m_interface->m_sauvegarde.is_mouse_over())
+    {
+        Sauvegarde(NomDuGraph);
+    }
+
+}
+
+void Graph::Charger(std::string NomDuGraph){
+    m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
+
+    std::ifstream f(NomDuGraph+".txt",std::ios::in);
+    int X, Y, SommetEntrant, SommetSortant;
+    double PoidsArretes,PoidsSommet;
+    std::string NomImage;
 
 
+    if (f){
+
+        f >> Graph::ordre;
+
+        f >> Graph::nbrEdge;
+        std::cout<< nbrEdge;
+        for(int i=0 ; i < ordre ; i++){
+
+        f >> PoidsSommet;
+        f >> X;
+        f >> Y;
+        f >> NomImage;
+
+        add_interfaced_vertex(i,PoidsSommet,X,Y,NomImage+".jpg");
+        }
+        for(int j=0 ; j < nbrEdge ; j++){
+
+            f >> SommetEntrant;
+            f >> SommetSortant;
+            f >> PoidsArretes;
+            add_interfaced_edge(j,SommetEntrant,SommetSortant,PoidsArretes);
 
 
+        }
 
+
+    f.close();
+    }
+
+}
+
+void Graph::Sauvegarde(std::string NomDuGraph){
+
+    std::ofstream f(NomDuGraph+".txt",std::ios::out | std::ios::trunc);
+    std::string NomImage;
+        if(f){
+            f << Graph::ordre <<std::endl;
+            f << Graph::nbrEdge<<std::endl;
+
+            for(auto &elt : m_vertices){
+         f << elt.second.m_value<<" ";
+         f <<elt.second.m_interface->m_top_box.get_frame_pos().x<<" ";
+         f <<elt.second.m_interface->m_top_box.get_frame_pos().y<<" ";
+        NomImage=elt.second.m_interface->m_img.get_pic_name();
+        NomImage.erase(NomImage.size()-4,4);
+         f <<NomImage<<std::endl;
+    }
+        for(auto &elt : m_edges){
+
+            f << elt.second.m_from<<" ";
+            f << elt.second.m_to<<" ";
+            f << elt.second.m_weight<<std::endl;
+
+        }
+        f.close();
+        std::cout<<"Sauvegarde effectue avec succes !"<< std::endl;
+        }
 
 }
 
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
-void Graph::update()
+void Graph::update(std::string NomDuGraph)
 {
     if (!m_interface)
         return;
@@ -219,6 +310,7 @@ void Graph::update()
         elt.second.pre_update();
 
     m_interface->m_top_box.update();
+    Boutonsgraph(NomDuGraph);
 
     for (auto &elt : m_vertices)
         elt.second.post_update();
@@ -262,5 +354,80 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]);
     m_interface->m_main_box.add_child(ei->m_top_edge);
     m_edges[idx] = Edge(weight, ei);
+
+    m_edges[idx].m_from = id_vert1;
+    m_edges[idx].m_to = id_vert2;
+
+    m_vertices[id_vert1].m_out.push_back(idx);
+    m_vertices[id_vert2].m_in.push_back(idx);
+}
+void Graph::detruire_graph()
+{
+
+    for(std::map<int,Vertex>::iterator it= m_vertices.begin(); it!=m_vertices.end();it++)
+    {
+        m_interface->m_main_box.remove_child(it->second.m_interface->m_top_box);
+
+    }
+
+    m_vertices.clear();
+
+    for(std::map<int,Edge>::iterator et= m_edges.begin(); et!=m_edges.end();et++)
+    {
+        m_interface->m_main_box.remove_child(et->second.m_interface->m_top_edge);
+
+
+    }
+    m_edges.clear();
+
+    m_interface.reset();
+    m_interface=nullptr;
+
+
+}
+/// eidx index of edge to remove
+void Graph::test_remove_edge(int eidx)
+{
+    /// référence vers le Edge à enlever
+    Edge &remed=m_edges.at(eidx);
+
+    std::cout << "Removing edge " << eidx << " " << remed.m_from << "->" << remed.m_to << " " << remed.m_weight << std::endl;
+
+    /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
+    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+    std::cout << m_edges.size() << std::endl;
+
+    /// test : on a bien des éléments interfacés
+    if (m_interface && remed.m_interface)
+    {
+        /// Ne pas oublier qu'on a fait ça à l'ajout de l'arc :
+        /* EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]); */
+        /* m_interface->m_main_box.add_child(ei->m_top_edge);  */
+        /* m_edges[idx] = Edge(weight, ei); */
+        /// Le new EdgeInterface ne nécessite pas de delete car on a un shared_ptr
+        /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
+        /// mais il faut bien enlever le conteneur d'interface m_top_edge de l'arc de la main_box du graphe
+        m_interface->m_main_box.remove_child( remed.m_interface->m_top_edge );
+    }
+
+    /// Il reste encore à virer l'arc supprimé de la liste des entrants et sortants des 2 sommets to et from !
+    /// References sur les listes de edges des sommets from et to
+    std::vector<int> &vefrom = m_vertices[remed.m_from].m_out;
+    std::vector<int> &veto = m_vertices[remed.m_to].m_in;
+    vefrom.erase( std::remove( vefrom.begin(), vefrom.end(), eidx ), vefrom.end() );
+    veto.erase( std::remove( veto.begin(), veto.end(), eidx ), veto.end() );
+
+    /// Le Edge ne nécessite pas non plus de delete car on n'a pas fait de new (sémantique par valeur)
+    /// Il suffit donc de supprimer l'entrée de la map pour supprimer à la fois l'Edge et le EdgeInterface
+    /// mais malheureusement ceci n'enlevait pas automatiquement l'interface top_edge en tant que child de main_box !
+    m_edges.erase( eidx );
+
+
+    /// Tester la cohérence : nombre d'arc entrants et sortants des sommets 1 et 2
+    std::cout << m_vertices[remed.m_from].m_in.size() << " " << m_vertices[remed.m_from].m_out.size() << std::endl;
+    std::cout << m_vertices[remed.m_to].m_in.size() << " " << m_vertices[remed.m_to].m_out.size() << std::endl;
+    std::cout << m_edges.size() << std::endl;
+
 }
 

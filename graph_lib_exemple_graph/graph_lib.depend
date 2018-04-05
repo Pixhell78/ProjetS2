@@ -5,10 +5,11 @@
 1522575424 d:\informatique\allegro\graph_lib_exemple_graph\grman\coords.h
 	<cmath>
 
-1522836323 source:d:\informatique\allegro\graph_lib_exemple_graph\graph.cpp
+1522921818 source:d:\informatique\allegro\graph_lib_exemple_graph\graph.cpp
 	"graph.h"
+	<fstream>
 
-1522656089 d:\informatique\allegro\graph_lib_exemple_graph\graph.h
+1522921662 d:\informatique\allegro\graph_lib_exemple_graph\graph.h
 	<vector>
 	<map>
 	<string>
@@ -24,7 +25,7 @@
 
 1509222372 d:\informatique\allegro\graph_lib_exemple_graph\grman\grman_couleurs.h
 
-1522636616 d:\informatique\allegro\graph_lib_exemple_graph\grman\widget.h
+1522916008 d:\informatique\allegro\graph_lib_exemple_graph\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -35,7 +36,7 @@
 1522636919 source:d:\informatique\allegro\graph_lib_exemple_graph\grman\widget.cpp
 	"widget.h"
 
-1522657075 source:d:\informatique\allegro\graph_lib_exemple_graph\main.cpp
+1522921720 source:d:\informatique\allegro\graph_lib_exemple_graph\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
