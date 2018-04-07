@@ -1,0 +1,112 @@
+# depslib dependency file v1.0
+1522575069 source:d:\informatique\allegro\graph_lib_exemple_graph\grman\coords.cpp
+	"coords.h"
+
+1522575424 d:\informatique\allegro\graph_lib_exemple_graph\grman\coords.h
+	<cmath>
+
+1522921818 source:d:\informatique\allegro\graph_lib_exemple_graph\graph.cpp
+	"graph.h"
+	<fstream>
+
+1522921662 d:\informatique\allegro\graph_lib_exemple_graph\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522539041 d:\informatique\allegro\graph_lib_exemple_graph\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1509222372 d:\informatique\allegro\graph_lib_exemple_graph\grman\grman_couleurs.h
+
+1522916008 d:\informatique\allegro\graph_lib_exemple_graph\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522636919 source:d:\informatique\allegro\graph_lib_exemple_graph\grman\widget.cpp
+	"widget.h"
+
+1522921720 source:d:\informatique\allegro\graph_lib_exemple_graph\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522515823 source:d:\informatique\allegro\graph_lib_exemple_graph\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1523107399 source:d:\informatique\projets2-master\graph_lib_exemple_graph\graph.cpp
+	"graph.h"
+	<fstream>
+
+1523108130 d:\informatique\projets2-master\graph_lib_exemple_graph\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	"grman/grman.h"
+
+1522941264 d:\informatique\projets2-master\graph_lib_exemple_graph\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522941264 d:\informatique\projets2-master\graph_lib_exemple_graph\grman\grman_couleurs.h
+
+1522941264 d:\informatique\projets2-master\graph_lib_exemple_graph\grman\coords.h
+	<cmath>
+
+1523010534 d:\informatique\projets2-master\graph_lib_exemple_graph\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522941264 source:d:\informatique\projets2-master\graph_lib_exemple_graph\grman\coords.cpp
+	"coords.h"
+
+1522941264 source:d:\informatique\projets2-master\graph_lib_exemple_graph\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522941264 source:d:\informatique\projets2-master\graph_lib_exemple_graph\grman\widget.cpp
+	"widget.h"
+
+1522941264 source:d:\informatique\projets2-master\graph_lib_exemple_graph\main.cpp
+	<iostream>
+	"menu.h"
+
