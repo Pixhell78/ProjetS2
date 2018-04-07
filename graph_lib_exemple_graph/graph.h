@@ -89,6 +89,7 @@ class VertexInterface
     friend class Vertex;
     friend class EdgeInterface;
     friend class Graph;
+    friend class Edge;
 
     private :
 
@@ -113,6 +114,10 @@ class VertexInterface
 
         // Une boite pour le label précédent
         grman::WidgetText m_box_label_idx;
+
+        grman::WidgetBox m_option;
+        grman::WidgetImage m_option_img;
+
 
     public :
 
@@ -147,6 +152,7 @@ class Vertex
         // Docu shared_ptr : https://msdn.microsoft.com/fr-fr/library/hh279669.aspx
         // La ligne précédente est en gros équivalent à la ligne suivante :
         // VertexInterface * m_interface = nullptr;
+        bool Cacher = 0;
 
 
     public:
@@ -161,6 +167,11 @@ class Vertex
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+        void Show_Vertex();
+        void Hide_Vertex();
+        void Bouton_Vertex();
+
+
 };
 
 
@@ -235,6 +246,10 @@ class Edge
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+        void Show_Edges(Vertex& from , Vertex& to);
+        void hide_edge_in(Vertex& v);
+        void hide_edge_out(Vertex& v);
+
 };
 
 
@@ -294,6 +309,7 @@ class Graph
         std::shared_ptr<GraphInterface> m_interface = nullptr;
         int ordre;
         int nbrEdge;
+        std::vector<int> Sommet_suite_in,Sommet_suite_out;
 
     public:
 
@@ -310,9 +326,11 @@ class Graph
         /// Cette méthode est à enlever et remplacer par un système
         /// de chargement de fichiers par exemple.
         void Charger(std::string NomDuGraph);
+        void Charger_Edges(std::string NomDuGraph);
+
         void Sauvegarde(std::string NomDuGraph);
         void Boutonsgraph(std::string NomDuGraph);
-
+        void Delete_vertex();
         void detruire_graph();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface

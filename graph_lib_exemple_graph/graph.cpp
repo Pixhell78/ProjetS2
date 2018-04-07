@@ -40,6 +40,18 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 
     m_box_label_idx.add_child( m_label_idx );
     m_label_idx.set_message( std::to_string(idx) );
+
+    m_top_box.add_child(m_option);
+    m_option.set_dim(15,15);
+    m_option.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
+
+    m_option.set_bg_color(ROUGECLAIR);
+    m_option.add_child(m_option_img);
+    m_option_img.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
+    m_option_img.set_pic_name("option.jpg");
+
+
 }
 
 
@@ -65,6 +77,8 @@ void Vertex::post_update()
 
     /// Reprendre la valeur du slider dans la donnée m_value locale
     m_value = m_interface->m_slider_value.get_value();
+    Bouton_Vertex();
+
 }
 
 
@@ -167,6 +181,8 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_afficher.add_child(m_afficher_text);
     m_afficher_text.set_message("Afficher ");
     m_afficher_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
+
 }
 
 
@@ -221,12 +237,136 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
 void Graph::Boutonsgraph(std::string NomDuGraph)
 {
+    int i=0;
     if(grman::mouse_click && m_interface->m_sauvegarde.is_mouse_over())
     {
         Sauvegarde(NomDuGraph);
     }
 
+    if(grman::mouse_click && m_interface->m_afficher.is_mouse_over())
+    {
+                Sauvegarde(NomDuGraph);
+                this->detruire_graph();
+
+        for ( auto &elmt : m_vertices ){
+            elmt.second.Cacher=false;
+        }
+                Charger(NomDuGraph);
+
+        /*for ( auto & elmt : m_edges ) {
+
+           elmt.second.Show_Edges(m_vertices[Sommet_suite_out[4]],m_vertices[Sommet_suite_out[i]]);
+           i++;
+        //std::cout<<"l'arrete "<< i <<"est composé des sommet " << Sommet_suite_in[i]<<" et "<< Sommet_suite_out[i]<<std::endl;
+           if(Sommet_suite_in[i]==0 && Sommet_suite_out[i]==1){
+                std::cout<<i<<"t";
+            }
+        }
+
+
+    */}
+
+
 }
+
+void Vertex::Bouton_Vertex()
+{
+        if(grman::mouse_click && m_interface->m_option.is_mouse_over())
+        Vertex::Cacher = 1;
+}
+
+void Edge::hide_edge_in(Vertex& v){
+
+m_interface->m_top_edge.remove_child(m_interface->m_box_edge);
+m_interface->m_top_edge.detach_from();
+
+
+}
+void Edge::hide_edge_out(Vertex& v){
+
+m_interface->m_top_edge.remove_child(m_interface->m_box_edge);
+m_interface->m_top_edge.detach_to();
+
+}
+void Edge::Show_Edges(Vertex& from , Vertex& to){
+
+    m_interface->m_top_edge.attach_from(from.m_interface->m_top_box);
+    m_interface->m_top_edge.attach_to(to.m_interface->m_top_box);
+    m_interface->m_top_edge.reset_arrow_with_bullet();
+
+    m_interface->m_top_edge.add_child(m_interface->m_box_edge);
+
+}
+
+void Vertex::Show_Vertex(){
+
+        if(m_interface->m_top_box.get_dimx()!=130)
+        {
+
+
+        m_interface->m_top_box.set_dim(130, 100);
+        //m_interface->m_top_box.set_border(2);
+
+        m_interface->m_top_box.add_child( m_interface->m_img );
+        m_interface->m_img.set_pos(30,0);
+
+        m_interface->m_top_box.add_child(m_interface->m_slider_value);
+        m_interface->m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
+
+        m_interface->m_top_box.add_child(m_interface->m_label_value);
+        m_interface->m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
+
+
+
+
+        m_interface->m_top_box.add_child(m_interface->m_option);
+        m_interface->m_option.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
+
+        m_interface->m_option.add_child(m_interface->m_option_img);
+        m_interface->m_option_img.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
+        m_interface->m_top_box.add_child(m_interface-> m_box_label_idx );
+        m_interface->m_box_label_idx.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Down);
+        }
+
+}
+void Vertex::Hide_Vertex(){
+
+    m_interface->m_top_box.remove_child(m_interface->m_option);
+    m_interface->m_top_box.remove_child(m_interface->m_option_img);
+    m_interface->m_top_box.remove_child(m_interface->m_slider_value);
+    m_interface->m_top_box.remove_child(m_interface->m_box_label_idx);
+    m_interface->m_top_box.remove_child(m_interface->m_label_value);
+    m_interface->m_top_box.remove_child(m_interface->m_img);
+    m_interface->m_top_box.set_dim(0,0);
+
+
+}
+
+void Graph::Delete_vertex(){
+
+
+    std::map<int,Vertex>::iterator it1;
+    std::map<int,Edge>::iterator it2;
+
+    for ( auto &elmt : m_vertices){
+        if(elmt.second.Cacher==true){
+            elmt.second.Hide_Vertex();
+
+            //std::cout<<elmt.second.m_out.size();
+            for(int i =0 ; i < (int)elmt.second.m_in.size();i++){
+            m_edges[elmt.second.m_in[i]].hide_edge_in(elmt.second);
+
+            }
+
+            for(int i =0 ; i < (int)elmt.second.m_out.size();i++){
+                m_edges[elmt.second.m_out[i]].hide_edge_out(elmt.second);
+
+
+            }
+            }
+        }
+    }
 
 void Graph::Charger(std::string NomDuGraph){
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
@@ -260,14 +400,59 @@ void Graph::Charger(std::string NomDuGraph){
             add_interfaced_edge(j,SommetEntrant,SommetSortant,PoidsArretes);
 
 
+
         }
 
 
     f.close();
     }
 
-}
 
+
+}
+void Graph::Charger_Edges(std::string NomDuGraph){
+    m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
+
+    std::ifstream f(NomDuGraph+".txt",std::ios::in);
+    int X, Y, SommetEntrant, SommetSortant;
+    double PoidsArretes,PoidsSommet;
+    std::string NomImage;
+
+
+    if (f){
+
+        f >> Graph::ordre;
+
+        f >> Graph::nbrEdge;
+        std::cout<< nbrEdge;
+        for(int i=0 ; i < ordre ; i++){
+
+        f >> PoidsSommet;
+        f >> X;
+        f >> Y;
+        f >> NomImage;
+
+        //add_interfaced_vertex(i,PoidsSommet,X,Y,NomImage+".jpg");
+        }
+        for(int j=nbrEdge ; j < nbrEdge*2 ; j++){
+
+            f >> SommetEntrant;
+            f >> SommetSortant;
+            f >> PoidsArretes;
+            add_interfaced_edge(j,SommetEntrant,SommetSortant,PoidsArretes);
+
+
+
+
+        }
+
+
+    f.close();
+    }
+
+
+
+}
 void Graph::Sauvegarde(std::string NomDuGraph){
 
     std::ofstream f(NomDuGraph+".txt",std::ios::out | std::ios::trunc);
@@ -311,6 +496,7 @@ void Graph::update(std::string NomDuGraph)
 
     m_interface->m_top_box.update();
     Boutonsgraph(NomDuGraph);
+    Delete_vertex();
 
     for (auto &elt : m_vertices)
         elt.second.post_update();
@@ -360,6 +546,8 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
     m_vertices[id_vert1].m_out.push_back(idx);
     m_vertices[id_vert2].m_in.push_back(idx);
+
+
 }
 void Graph::detruire_graph()
 {
