@@ -182,6 +182,15 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_afficher_text.set_message("Afficher ");
     m_afficher_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
 
+    m_tool_box.add_child(m_menu);
+    m_menu.set_dim(116,30);
+    m_menu.set_pos(-2,700);
+
+    m_menu.set_bg_color(BLEUCLAIR);
+    m_menu.add_child(m_menu_text);
+    m_menu_text.set_message("Retour");
+    m_menu_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
 
 }
 
@@ -235,9 +244,8 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
 }*/
 
-void Graph::Boutonsgraph(std::string NomDuGraph)
+int Graph::Boutonsgraph(std::string NomDuGraph)
 {
-    int i=0;
     if(grman::mouse_click && m_interface->m_sauvegarde.is_mouse_over())
     {
         Sauvegarde(NomDuGraph);
@@ -253,19 +261,11 @@ void Graph::Boutonsgraph(std::string NomDuGraph)
         }
                 Charger(NomDuGraph);
 
-        /*for ( auto & elmt : m_edges ) {
-
-           elmt.second.Show_Edges(m_vertices[Sommet_suite_out[4]],m_vertices[Sommet_suite_out[i]]);
-           i++;
-        //std::cout<<"l'arrete "<< i <<"est composé des sommet " << Sommet_suite_in[i]<<" et "<< Sommet_suite_out[i]<<std::endl;
-           if(Sommet_suite_in[i]==0 && Sommet_suite_out[i]==1){
-                std::cout<<i<<"t";
-            }
-        }
-
-
-    */}
-
+    }
+    if(grman::mouse_click && m_interface->m_menu.is_mouse_over())
+    {
+        return 1;
+    }
 
 }
 

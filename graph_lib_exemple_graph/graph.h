@@ -282,6 +282,9 @@ class GraphInterface
         grman::WidgetText m_sauvegarde_text;
         grman::WidgetButton m_afficher;
         grman::WidgetText m_afficher_text;
+        grman::WidgetButton m_menu;
+        grman::WidgetText m_menu_text;
+
 
 
         // A compléter éventuellement par des widgets de décoration ou
@@ -329,7 +332,7 @@ class Graph
         void Charger_Edges(std::string NomDuGraph);
 
         void Sauvegarde(std::string NomDuGraph);
-        void Boutonsgraph(std::string NomDuGraph);
+        int Boutonsgraph(std::string NomDuGraph);
         void Delete_vertex();
         void detruire_graph();
 
