@@ -1,22 +1,22 @@
 10
 11
-50 100 150 dromadaire
-60 600 200 guepard
-55 350 175 addax
-70 140 300 fourmi
-60 50  50  scorpion
-40 340 250 vegetaux
-20 450 100 gerbille
-15 800 100 fennec
-20 750 500 viperedessables
-50 450 400 gazelle
+50 44 239 dromadaire
+60 614 39 guepard
+55 350 73 addax
+70 244 502 fourmis
+60 25 590 scorpion
+0 350 248 vegetaux
+20 530 486 gerbille
+15 731 426 fennec
+20 707 628 viperedessables
+50 587 218 gazelle
 3 4 10
 5 0 10
-5 3 10 
+5 3 10
 5 2 10
 5 9 10
 5 6 10
-2 1 10 
+2 1 10
 9 1 10
 6 7 10
 6 8 10

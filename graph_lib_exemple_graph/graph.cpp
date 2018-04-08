@@ -191,58 +191,29 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_menu_text.set_message("Retour");
     m_menu_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
 
+    m_tool_box.add_child(m_sommet);
+    m_sommet.set_dim(116,30);
+    m_sommet.set_pos(-2,80);
+
+    m_sommet.set_bg_color(BLEUCLAIR);
+    m_sommet.add_child(m_sommet_text);
+    m_sommet_text.set_message("Ajout Sommet");
+    m_sommet_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
+    m_tool_box.add_child(m_edge);
+    m_edge.set_dim(116,30);
+    m_edge.set_pos(-2,120);
+
+    m_edge.set_bg_color(BLEUCLAIR);
+    m_edge.add_child(m_edge_text);
+    m_edge_text.set_message("Ajout Arcs");
+    m_edge_text.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+
 
 }
 
 
-/// Méthode spéciale qui construit un graphe arbitraire (démo)
-/// Cette méthode est à enlever et remplacer par un système
-/// de chargement de fichiers par exemple.
-/// Bien sûr on ne veut pas que vos graphes soient construits
-/// "à la main" dans le code comme ça.
-/*void Graph::make_example()
-{
-    m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne précédente est en gros équivalente à :
-    // m_interface = new GraphInterface(50, 0, 750, 600);
 
-    /// Les sommets doivent être définis avant les arcs
-    // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
-    add_interfaced_vertex(0, 30.0, 400, 50, "tamanoir.jpg");
-    add_interfaced_vertex(1, 60.0, 700, 50, "jaguar.jpg");
-    add_interfaced_vertex(2,  50.0, 200, 200, "fourmis.jpg");
-    add_interfaced_vertex(3,  0.0, 375, 300, "tatou.jpg");
-    add_interfaced_vertex(4,  100.0, 600, 300, "tapir.jpg");
-    add_interfaced_vertex(5,  0.0, 700, 600, "capybara.jpg", 0);
-    add_interfaced_vertex(6,  0.0, 375, 600, "vegetaux.jpg", 1);
-    add_interfaced_vertex(7,  0.0, 75, 600, "phasme.jpg", 2);
-    add_interfaced_vertex(8,  0.0, 0, 350, "mante.jpg", 2);
-    add_interfaced_vertex(9,  0.0, 50, 50, "mygale.jpg", 2);
-    add_interfaced_vertex(10,  0.0, 200, 450, "papillon.jpg", 2);
-
-    /// Les arcs doivent être définis entre des sommets qui existent !
-    // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-    add_interfaced_edge(0, 6, 7, 50.0);
-    add_interfaced_edge(1, 6, 10, 50.0);
-    add_interfaced_edge(2, 6, 3, 50.0);
-    add_interfaced_edge(3, 6, 4, 50.0);
-    add_interfaced_edge(4, 6, 5, 50.0);
-    add_interfaced_edge(5, 7, 8, 50.0);
-    add_interfaced_edge(6, 10, 8, 50.0);
-    add_interfaced_edge(7, 10, 2, 50.0);
-    add_interfaced_edge(8, 10, 3, 50.0);
-    add_interfaced_edge(9, 3, 1, 50.0);
-    add_interfaced_edge(10, 4, 1, 50.0);
-    add_interfaced_edge(11, 5, 1, 50.0);
-    add_interfaced_edge(12, 0, 1, 50.0);
-    add_interfaced_edge(13, 10, 8, 50.0);
-    add_interfaced_edge(14, 8, 2, 50.0);
-    add_interfaced_edge(15, 8, 9, 50.0);
-    add_interfaced_edge(16, 2, 0, 50.0);
-
-
-
-}*/
 
 int Graph::Boutonsgraph(std::string NomDuGraph)
 {
@@ -266,6 +237,16 @@ int Graph::Boutonsgraph(std::string NomDuGraph)
     {
         return 1;
     }
+    if(grman::mouse_click && m_interface->m_sommet.is_mouse_over())
+    {
+        AddVertex();
+    }
+
+    if(grman::mouse_click && m_interface->m_edge.is_mouse_over())
+    {
+        AddEdges();
+    }
+
 
 }
 
@@ -288,48 +269,7 @@ m_interface->m_top_edge.remove_child(m_interface->m_box_edge);
 m_interface->m_top_edge.detach_to();
 
 }
-void Edge::Show_Edges(Vertex& from , Vertex& to){
 
-    m_interface->m_top_edge.attach_from(from.m_interface->m_top_box);
-    m_interface->m_top_edge.attach_to(to.m_interface->m_top_box);
-    m_interface->m_top_edge.reset_arrow_with_bullet();
-
-    m_interface->m_top_edge.add_child(m_interface->m_box_edge);
-
-}
-
-void Vertex::Show_Vertex(){
-
-        if(m_interface->m_top_box.get_dimx()!=130)
-        {
-
-
-        m_interface->m_top_box.set_dim(130, 100);
-        //m_interface->m_top_box.set_border(2);
-
-        m_interface->m_top_box.add_child( m_interface->m_img );
-        m_interface->m_img.set_pos(30,0);
-
-        m_interface->m_top_box.add_child(m_interface->m_slider_value);
-        m_interface->m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
-
-        m_interface->m_top_box.add_child(m_interface->m_label_value);
-        m_interface->m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
-
-
-
-
-        m_interface->m_top_box.add_child(m_interface->m_option);
-        m_interface->m_option.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
-
-        m_interface->m_option.add_child(m_interface->m_option_img);
-        m_interface->m_option_img.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
-
-        m_interface->m_top_box.add_child(m_interface-> m_box_label_idx );
-        m_interface->m_box_label_idx.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Down);
-        }
-
-}
 void Vertex::Hide_Vertex(){
 
     m_interface->m_top_box.remove_child(m_interface->m_option);
@@ -410,6 +350,28 @@ void Graph::Charger(std::string NomDuGraph){
 
 
 }
+
+void Graph::AddVertex()
+{
+    std::string img;
+    int a;
+    std::cout << "Nom du sommet a ajouter : " << std::endl;
+    std::cin >> img;
+    a = m_vertices.size();
+    add_interfaced_vertex(a,0,0,0,img+".jpg",a);
+}
+
+void Graph::AddEdges()
+{
+    int start;
+    int stop;
+    std::cout << "Indice du sommet de depart : " << std::endl;
+    std::cin >> start;
+    std::cout << "Indice du sommet d'arrive : " << std::endl;
+    std::cin >> stop;
+    add_interfaced_edge(m_edges.size(),start,stop,50);
+}
+
 void Graph::Charger_Edges(std::string NomDuGraph){
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
 

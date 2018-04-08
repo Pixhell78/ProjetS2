@@ -81,24 +81,3 @@ while (!key[KEY_SPACE])
 END_OF_MAIN();
 
 
-/*while (NomDuGraph=="")
-    {
-    menu.choixgraph();
-    menu.update();
-    }
-    //g.Charger(NomDuGraph);
-
-    if(NomDuGraph!="")
-    while ( !key[KEY_ESC] )
-    {
-    /// Vous gardez la main sur la "boucle de jeu"
-    /// ( contrairement à des frameworks plus avancés )
-
-        /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
-        g.update(NomDuGraph);
-
-        /// Mise à jour générale (clavier/souris/buffer etc...)
-        grman::mettre_a_jour();
-    }
-    g.detruire_graph();
-    grman::fermer_allegro();*/

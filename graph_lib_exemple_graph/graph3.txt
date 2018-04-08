@@ -1,28 +1,27 @@
 10
 15
-50 100 600 loup
-50 400 400 renard
-50 800 400 chouette
-50 100 600 cerf 
-40 450 600 sanglier
-60 650 480 chevreuil 
-80 800 600 ecureuil 
-40 470 300 vegetaux
-40 800 800 campagnol
-40 100 200 fourmi
+50 84 69 loup
+50 396 32 renard
+50 709 74 chouette
+50 3 413 cerf
+40 164 332 sanglier
+60 346 359 chevreuil
+80 551 388 ecureuil
+40 346 604 vegetaux
+40 730 453 campagnol
+40 68 589 fourmis
 7 9 10
-7 3 10 
-7 4 10 
+7 3 10
+7 4 10
 7 5 10
-7 6 10 
-7 8 10 
-3 0 10 
+7 6 10
+7 8 10
+3 0 10
 4 0 10
 5 0 10
 6 0 10
 5 1 10
-6 1 10 
-8 1 10 
-6 2 10 
-8 2 10 
-
+6 1 10
+8 1 10
+6 2 10
+8 2 10

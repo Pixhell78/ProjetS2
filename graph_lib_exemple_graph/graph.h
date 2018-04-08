@@ -167,7 +167,6 @@ class Vertex
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
-        void Show_Vertex();
         void Hide_Vertex();
         void Bouton_Vertex();
 
@@ -246,7 +245,6 @@ class Edge
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
-        void Show_Edges(Vertex& from , Vertex& to);
         void hide_edge_in(Vertex& v);
         void hide_edge_out(Vertex& v);
 
@@ -284,7 +282,10 @@ class GraphInterface
         grman::WidgetText m_afficher_text;
         grman::WidgetButton m_menu;
         grman::WidgetText m_menu_text;
-
+        grman::WidgetButton m_sommet;
+        grman::WidgetText m_sommet_text;
+        grman::WidgetButton m_edge;
+        grman::WidgetText m_edge_text;
 
 
         // A compléter éventuellement par des widgets de décoration ou
@@ -335,6 +336,8 @@ class Graph
         int Boutonsgraph(std::string NomDuGraph);
         void Delete_vertex();
         void detruire_graph();
+        void AddVertex();
+        void AddEdges();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update(std::string NomDuGraph);

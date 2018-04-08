@@ -431,6 +431,10 @@ class WidgetEdge : public Widget
         void attach_from(Widget& from) { m_attach[0] = &from; }
         void attach_to(Widget& to) { m_attach[1] = &to; }
 
+
+        void detach_from() { m_attach[0] = nullptr; }
+        void detach_to() { m_attach[1] = nullptr; }
+
         void reset_no_items() { m_items.clear(); }
         void reset_arrow() { m_items = { {ArrowItemType::Arrow, 1.0} }; }
         void reset_arrow_with_bullet() { m_items = { {ArrowItemType::Arrow, 1.0},
